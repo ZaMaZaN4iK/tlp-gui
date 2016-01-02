@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     WindowSettings.cpp \
-    SystemTray.cpp
+    SystemTray.cpp \
+    HelpBrowser.cpp
 
 HEADERS  += mainwindow.h \
     WindowSettings.h \
-    SystemTray.h
+    SystemTray.h \
+    HelpBrowser.h
 
 FORMS    +=
 
@@ -27,3 +29,5 @@ DISTFILES +=
 
 RESOURCES += \
     images.qrc
+
+LIBS += -lqassistantclient

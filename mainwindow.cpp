@@ -5,13 +5,13 @@ MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
 {
     QCoreApplication::setApplicationName("TLP GUI");
     QCoreApplication::setApplicationVersion("0.0.1");
-    QCoreApplication::setOrganizationDomain("github.com");
+    QCoreApplication::setOrganizationDomain("https://github.com/ZaMaZaN4iK/tlp-gui");
     //Create the interface
     pvbx = new QVBoxLayout;
     phbx = new QHBoxLayout;
-    pbtn = new QPushButton("&Open current profile");
-    pAC = new QPushButton("&AC mode");
-    pBAT = new QPushButton("&Battery mode");
+    pbtn = new QPushButton(tr("&Open current profile"));
+    pAC = new QPushButton(tr("&AC mode"));
+    pBAT = new QPushButton(tr("&Battery mode"));
     pbar = new QMenuBar;
     ptable = new QTableWidget(80, 2, this);
     st = new SystemTray(this);
@@ -19,7 +19,8 @@ MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
     connect(pbtn, SIGNAL(clicked()), SLOT(slotCallEditor()));
     connect(pAC, SIGNAL(clicked()), SLOT(slotAC()));
     connect(pBAT, SIGNAL(clicked()), SLOT(slotBAT()));
-    ptable->setHorizontalHeaderLabels(QStringList() << "Property" << "Value");
+
+    ptable->setHorizontalHeaderLabels(QStringList() << tr("Property") << tr("Value"));
     lbl.setTextInteractionFlags(Qt::TextEditable | Qt::TextEditorInteraction);
     fillTable();
     createQMenuBar();
@@ -61,8 +62,8 @@ void MainWindows::readSettings()
 
 void MainWindows::createQMenuBar()
 {
-    QMenu* pmenu = new QMenu("&File");
-    QMenu* phelp = new QMenu("&Help");
+    QMenu* pmenu = new QMenu(tr("&File"));
+    QMenu* phelp = new QMenu(tr("&Help"));
     createQMenuFile(pmenu);
     createQMenuHelp(phelp);
     pbar->addMenu(pmenu);
@@ -71,24 +72,24 @@ void MainWindows::createQMenuBar()
 
 void MainWindows::createQMenuFile(QMenu* pmenu)
 {
-    QAction* popn = pmenu->addAction("&Open...");
+    QAction* popn = pmenu->addAction(tr("&Open..."));
     popn->setShortcut(Qt::CTRL + Qt::Key_O);
     connect(popn, SIGNAL(triggered()), SLOT(slotOpenFile()));
 
-    QAction* psv = pmenu->addAction("&Save");
+    QAction* psv = pmenu->addAction(tr("&Save"));
     psv->setShortcut(Qt::CTRL + Qt::Key_S);
     connect(psv, SIGNAL(triggered()), SLOT(slotSaveFile()));
 
-    QAction* psett = pmenu->addAction("&Settings");
+    QAction* psett = pmenu->addAction(tr("&Settings"));
     psv->setShortcut(Qt::CTRL + Qt::Key_P);
     connect(psett, SIGNAL(triggered()), SLOT(slotSettings()));
 
-    pmenu->addAction("&Exit", qApp, SLOT(quit()));
+    pmenu->addAction(tr("&Exit"), qApp, SLOT(quit()));
 }
 
 void MainWindows::createQMenuHelp(QMenu* phelp)
 {
-    phelp->addAction("&About QT", qApp, SLOT(aboutQt()), Qt::CTRL + Qt::Key_Q);
+    phelp->addAction(tr("&About QT"), qApp, SLOT(aboutQt()), Qt::CTRL + Qt::Key_Q);
 }
 
 void MainWindows::loadTempFile(QMap<QString, QStringList>& val)
@@ -130,14 +131,14 @@ void MainWindows::fillTable()
 
 void MainWindows::slotSaveFile()
 {
-    QString str = QFileDialog::getSaveFileName(0, "Save Dialog", "/etc/default", "");
+    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/etc/default", "");
     //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
     if(str != "")
     {
         QFile file(str);
         if(!file.open(QIODevice::WriteOnly | QFile::Truncate))
         {
-            QMessageBox::critical(this, "Error", "Could not create the file");
+            QMessageBox::critical(this, tr("Error"), tr("Could not create the file"));
             return;
         }
         QTextStream out(&file);
@@ -148,13 +149,13 @@ void MainWindows::slotSaveFile()
 
 void MainWindows::slotOpenFile()
 {
-    QString str = QFileDialog::getOpenFileName(0, "Open Dialog", "/etc/default/", "");
+    QString str = QFileDialog::getOpenFileName(0, tr("Open Dialog"), "/etc/default/", "");
     if(str != "")
     {
         QFile filename(str);
         if(!filename.open(QIODevice::ReadOnly))
         {
-            QMessageBox::critical(this, "Error", "Could not open the file");
+            QMessageBox::critical(this, tr("Error"), tr("Could not open the file"));
             return;
         }
         QTextStream in(&filename);

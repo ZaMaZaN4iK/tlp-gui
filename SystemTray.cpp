@@ -5,21 +5,21 @@
 // ----------------------------------------------------------------------
 SystemTray::SystemTray(QWidget* pwgt /*=0*/) : QWidget(pwgt)
 {
-    setWindowTitle("System Tray");
+    setWindowTitle(tr("System Tray"));
 
     QAction* pactShowHide =
-        new QAction("&Show/Hide Application Window", this);
+        new QAction(tr("&Show/Hide Application Window"), this);
 
     connect(pactShowHide, SIGNAL(triggered()),
             this,         SLOT(slotShowHide())
            );
 
-    QAction* pactShowMessage = new QAction("S&how Message", this);
+    QAction* pactShowMessage = new QAction(tr("S&how Message"), this);
     connect(pactShowMessage, SIGNAL(triggered()),
             this,            SLOT(slotShowMessage())
            );
 
-    QAction* pactQuit = new QAction("&Quit", this);
+    QAction* pactQuit = new QAction(tr("&Quit"), this);
     connect(pactQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     m_ptrayIconMenu = new QMenu(this);
@@ -56,8 +56,8 @@ void SystemTray::slotShowHide()
 // ----------------------------------------------------------------------
 void SystemTray::slotShowMessage()
 {
-    m_ptrayIcon->showMessage("Information",
-                             "You have selected the " + qobject_cast<MainWindows*>(this->parent())->curProf + "\"Show Message!\" option",
+    m_ptrayIcon->showMessage(tr("Information"),
+                             tr("You have selected the ") + qobject_cast<MainWindows*>(this->parent())->curProf + tr("\"Show Message!\" option"),
                              QSystemTrayIcon::Information,
                              3000
                             );
