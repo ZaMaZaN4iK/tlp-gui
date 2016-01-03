@@ -4,8 +4,7 @@
 
 class Parser
 {
-public:
-    Parser();
+    static bool check();
 };
 
 #endif // PARSER_H

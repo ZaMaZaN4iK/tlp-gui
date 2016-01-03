@@ -12,22 +12,88 @@ MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
     pbtn = new QPushButton(tr("&Open current profile"));
     pAC = new QPushButton(tr("&AC mode"));
     pBAT = new QPushButton(tr("&Battery mode"));
+    pbtnTab = new QPushButton(tr("&Save Table to File"));
     pbar = new QMenuBar;
-    ptable = new QTableWidget(80, 2, this);
+    ptable = new QTableWidget(keyword.size(), columnTable, this);
     st = new SystemTray(this);
 
+    connect(pbtnTab, SIGNAL(clicked()), SLOT(slotSaveTable()));
     connect(pbtn, SIGNAL(clicked()), SLOT(slotCallEditor()));
     connect(pAC, SIGNAL(clicked()), SLOT(slotAC()));
     connect(pBAT, SIGNAL(clicked()), SLOT(slotBAT()));
 
     ptable->setHorizontalHeaderLabels(QStringList() << tr("Property") << tr("Value"));
     lbl.setTextInteractionFlags(Qt::TextEditable | Qt::TextEditorInteraction);
+
+    //----------------------------------------------------------------
+    keyword << QPair<QString, QStringList>("TLP_ENABLE", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("DISK_IDLE_SECS_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("MAX_LOST_WORK_SECS_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("CPU_SCALING_GOVERNOR_ON_AC", QStringList() << "QComboBox" << "ondemand" << "powersave" << "performance" << "conservative")
+            << QPair<QString, QStringList>("CPU_SCALING_MIN_FREQ_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("CPU_SCALING_MAX_FREQ_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("CPU_MIN_PERF_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("CPU_MAX_PERF_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("CPU_BOOST_ON_AC", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("SCHED_POWERSAVE_ON_AC", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("NMI_WATCHDOG", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("PHC_CONTROLS", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("ENERGY_PERF_POLICY_ON_AC", QStringList() << "QComboBox" << "performance" << "normal" << "powersave")
+            << QPair<QString, QStringList>("DISK_DEVICES", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("DISK_APM_LEVEL_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("DISK_SPINDOWN_TIMEOUT_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("DISK_IOSCHED", QStringList() << "QComboBox" << "noop" << "deadline" << "cfq")
+            << QPair<QString, QStringList>("SATA_LINKPWR_ON_AC", QStringList() << "QComboBox" << "min_power" << "medium_power" << "max_performance")
+            << QPair<QString, QStringList>("PCIE_ASPM_ON_AC", QStringList() << "QComboBox" << "default" << "performance" << "powersave")
+            << QPair<QString, QStringList>("RADEON_POWER_PROFILE_ON_AC", QStringList() << "QComboBox" << "low" << "mid" << "high" << "auto" << "default")
+            << QPair<QString, QStringList>("RADEON_DPM_STATE_ON_AC", QStringList() << "QComboBox" << "battery" << "performance")
+            << QPair<QString, QStringList>("RADEON_DPM_PERF_LEVEL_ON_AC", QStringList() << "QComboBox" << "auto" << "low" << "high")
+            << QPair<QString, QStringList>("WIFI_PWR_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("WOL_DISABLE", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("SOUND_POWER_SAVE_ON_AC", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("SOUND_POWER_SAVE_CONTROLLER", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("BAY_POWEROFF_ON_BAT", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("BAY_DEVICE", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("RUNTIME_PM_ON_AC", QStringList() << "QComboBox" << "on" << "auto")
+            << QPair<QString, QStringList>("RUNTIME_PM_ALL", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("RUNTIME_PM_BLACKLIST", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("RUNTIME_PM_DRIVER_BLACKLIST", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("USB_AUTOSUSPEND", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("USB_BLACKLIST", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("USB_BLACKLIST_WWAN", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("USB_WHITELIST", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("RESTORE_DEVICE_STATE_ON_STARTUP", QStringList() << "QCheckBox")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_STARTUP", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_STARTUP", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_SHUTDOWN", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_SHUTDOWN", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_AC", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_BAT", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("START_CHARGE_THRESH_BAT0", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("STOP_CHARGE_THRESH_BAT0", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("START_CHARGE_THRESH_BAT1", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("STOP_CHARGE_THRESH_BAT1", QStringList() << "QLineEdit")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_LAN_CONNECT", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_WIFI_CONNECT", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_WWAN_CONNECT", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_LAN_DISCONNECT", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_WIFI_DISCONNECT", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_WWAN_DISCONNECT", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_DOCK", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_DOCK", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_ENABLE_ON_UNDOCK", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan")
+            << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_UNDOCK", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan");
+    //----------------------------------------------------------------
+
     fillTable();
     createQMenuBar();
     pvbx->addWidget(pbar);
     phbx->addWidget(pbtn);
     phbx->addWidget(pAC);
     phbx->addWidget(pBAT);
+    phbx->addWidget(pbtnTab);
     pvbx->addLayout(phbx);
     pvbx->addWidget(&lbl);
     pvbx->addWidget(ptable);
@@ -108,24 +174,71 @@ void MainWindows::loadTempFile(QMap<QString, QStringList>& val)
 
 void MainWindows::fillTable()
 {
-    QFile prop("/home/zamazan4ik/listOfProperties.txt"),
-          values("/home/zamazan4ik/listOfValues.txt");
-    if(prop.open(QIODevice::ReadOnly) && values.open(QIODevice::ReadOnly))
+    int row = 0;
+    QMap<QString, QStringList> val;
+    loadTempFile(val);
+    for(auto it = keyword.begin(); it != keyword.end(); ++it)
     {
-        QTextStream s_prop(&prop), s_val(&values);
-        QString for_prop, for_val;
-        int row = 0;
-        QMap<QString, QStringList> val;
-        loadTempFile(val);
-        while(s_prop.readLineInto(&for_prop) && s_val.readLineInto(&for_val))
+        QTableWidgetItem* tProp = new QTableWidgetItem(it->first);
+        QWidget* pbox;
+        if(it->second.first() == "QLineEdit")
         {
-            QTableWidgetItem* tProp = new QTableWidgetItem(for_prop);
-            QLineEdit* pbox = new QLineEdit;
-            pbox->setText(for_val);
-            ptable->setItem(row, 0, tProp);
-            ptable->setCellWidget(row, 1, pbox);
-            ++row;
+            pbox = new QLineEdit("Default");
         }
+        else if(it->second.first() == "QCheckBox")
+        {
+            pbox = new QCheckBox;
+        }
+        else
+        {
+            auto j = it->second.begin();
+            ++j;
+            pbox = new QComboBox;
+            for(; j != it->second.end(); ++j)
+            {
+                qobject_cast<QComboBox*>(pbox)->addItem(*j);
+            }
+        }
+        ptable->setItem(row, 0, tProp);
+        ptable->setCellWidget(row, 1, pbox);
+        ++row;
+    }
+}
+
+void MainWindows::slotSaveTable()
+{
+    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/etc/default", "");
+    //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
+    if(str != "")
+    {
+        QFile file(str);
+        if(!file.open(QIODevice::WriteOnly | QFile::Truncate))
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Could not create the file"));
+            return;
+        }
+        QTextStream out(&file);
+        auto it = keyword.begin();
+        for(int i = 0; i < 59; ++i)
+        {
+            out << ptable->item(i, 0)->text() << "=";
+            if(it->second.first() == "QLineEdit")
+            {
+                out << qobject_cast<QLineEdit*>(ptable->cellWidget(i, 1))->text() << "\n";
+            }
+            else if(it->second.first() == "QCheckBox")
+            {
+                qobject_cast<QCheckBox*>(ptable->cellWidget(i, 1))->isChecked() ?  out << "1" : out << "0";
+                out << "\n";
+            }
+            else
+            {
+                QComboBox* pbox = qobject_cast<QComboBox*>(ptable->cellWidget(i, 1));
+                out << pbox->currentText() << "\n";
+            }
+            ++it;
+        }
+        file.close();
     }
 }
 
@@ -190,6 +303,7 @@ void MainWindows::slotBAT()
     proc.waitForFinished();
     QByteArray arr = proc.readAll();
     qDebug() << arr;
+
     QMessageBox::information(this, "Notification", "Battery mode activated");
 }
 

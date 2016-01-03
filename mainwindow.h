@@ -10,9 +10,13 @@ class MainWindows : public QWidget
 {
     Q_OBJECT
 private:
+    static const int columnTable = 2;
+
+    QList<QPair<QString, QStringList> > keyword;
+
     QVBoxLayout* pvbx;
     QHBoxLayout* phbx;
-    QPushButton* pbtn, *pAC, *pBAT;
+    QPushButton* pbtn, *pAC, *pBAT, *pbtnTab;
     QMenuBar* pbar;
     QTableWidget* ptable;
     SystemTray* st;
@@ -37,6 +41,7 @@ public :
 
     friend SystemTray;
 public slots:
+    void slotSaveTable();
     void slotOpenFile();
     void slotSaveFile();
     void slotCallEditor();

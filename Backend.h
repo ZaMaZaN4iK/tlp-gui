@@ -1,12 +1,12 @@
 #ifndef BACKEND_H
 #define BACKEND_H
 
-#include <QStringList>
+#include <QtCore>
 
 class Backend
 {
 private:
-    QStringList keyword;
+     QList<QPair<QString, QStringList> > keyword;
 public:
     Backend();
 };
