@@ -89,7 +89,7 @@ void MainWindows::createQMenuFile(QMenu* pmenu)
 
 void MainWindows::createQMenuHelp(QMenu* phelp)
 {
-    phelp->addAction(tr("&About QT"), qApp, SLOT(aboutQt()), Qt::CTRL + Qt::Key_Q);
+    phelp->addAction(tr("&About QT"), qApp, SLOT(aboutQt()));
 }
 
 void MainWindows::loadTempFile(QMap<QString, QStringList>& val)

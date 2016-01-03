@@ -22,8 +22,16 @@ SystemTray::SystemTray(QWidget* pwgt /*=0*/) : QWidget(pwgt)
     QAction* pactQuit = new QAction(tr("&Quit"), this);
     connect(pactQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
 
+    QAction* pactAC = new QAction(tr("Switch to AC Mode"), this);
+    connect(pactAC, SIGNAL(triggered()), this->parent(), SLOT(slotAC()));
+
+    QAction* pactBat = new QAction(tr("Switch to Battery Mode"), this);
+    connect(pactBat, SIGNAL(triggered()), this->parent(), SLOT(slotBAT()));
+
     m_ptrayIconMenu = new QMenu(this);
     m_ptrayIconMenu->addAction(pactShowHide);
+    m_ptrayIconMenu->addAction(pactAC);
+    m_ptrayIconMenu->addAction(pactBat);
     m_ptrayIconMenu->addAction(pactShowMessage);
     m_ptrayIconMenu->addAction(pactQuit);
 
@@ -57,7 +65,8 @@ void SystemTray::slotShowHide()
 void SystemTray::slotShowMessage()
 {
     m_ptrayIcon->showMessage(tr("Information"),
-                             tr("You have selected the ") + qobject_cast<MainWindows*>(this->parent())->curProf + tr("\"Show Message!\" option"),
+                             tr("You have selected the ") + qobject_cast<MainWindows*>(this->parent())->curProf +
+                             tr("\"Show Message!\" option"),
                              QSystemTrayIcon::Information,
                              3000
                             );

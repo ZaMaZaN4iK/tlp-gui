@@ -4,7 +4,7 @@
 #include <QSettings>
 #include "SystemTray.h"
 
-//class SystemTray;
+class SystemTray;
 
 class MainWindows : public QWidget
 {

@@ -16,12 +16,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     WindowSettings.cpp \
     SystemTray.cpp \
-    HelpBrowser.cpp
+    HelpBrowser.cpp \
+    Backend.cpp \
+    Parser.cpp
 
 HEADERS  += mainwindow.h \
     WindowSettings.h \
     SystemTray.h \
-    HelpBrowser.h
+    HelpBrowser.h \
+    Backend.h \
+    Parser.h
 
 FORMS    +=
 
@@ -30,4 +34,3 @@ DISTFILES +=
 RESOURCES += \
     images.qrc
 
-LIBS += -lqassistantclient

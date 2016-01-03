@@ -1,17 +1,18 @@
-#ifndef HELPBROWSER_H
-#define HELPBROWSER_H
+//#ifndef HELPBROWSER_H
+//#define HELPBROWSER_H
 
-#include <QWidget>
+//#include <QWidget>
 
-class QAssistantClient;
 
-class HelpBrowser
-{
-public:
-  static void showPage(const QString &page);
+//class QAssistantClient;
 
-private:
-  static QAssistantClient *assistant;
-};
+//class HelpBrowser
+//{
+//public:
+//  static void showPage(const QString &page);
 
-#endif // HELPBROWSER_H
+//private:
+//  static QAssistantClient *assistant;
+//};
+
+//#endif // HELPBROWSER_H
