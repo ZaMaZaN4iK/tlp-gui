@@ -2,7 +2,7 @@
 #include <QApplication>
 #include <QtWidgets>
 #include <QtGui>
-#include "mainwindow.h"
+#include "MainWindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     //QTranslator translator;
     //translator.load("main_pl.qm","/home/zamazan4ik/tlp-gui/translations");
     //a.installTranslator(&translator);
-    MainWindows w;
+    MainWindow w;
     w.show();
     return a.exec();
 }

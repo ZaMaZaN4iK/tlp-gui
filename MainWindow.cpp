@@ -1,7 +1,9 @@
-#include "mainwindow.h"
+#include "MainWindow.h"
 #include "SystemTray.h"
+#include "TableModel.h"
+#include "QComboBoxItemDelegate.h"
 
-MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
+MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 {
     QCoreApplication::setApplicationName("TLP GUI");
     QCoreApplication::setApplicationVersion("0.0.1");
@@ -14,7 +16,8 @@ MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
     pBAT = new QPushButton(tr("&Battery mode"));
     pbtnTab = new QPushButton(tr("&Save Table to File"));
     pbar = new QMenuBar;
-    ptable = new QTableWidget(keyword.size(), columnTable, this);
+    ptab = new TableModel(10, 10, this);
+    ptable = new QTableView(this);
     st = new SystemTray(this);
 
     connect(pbtnTab, SIGNAL(clicked()), SLOT(slotSaveTable()));
@@ -22,7 +25,8 @@ MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
     connect(pAC, SIGNAL(clicked()), SLOT(slotAC()));
     connect(pBAT, SIGNAL(clicked()), SLOT(slotBAT()));
 
-    ptable->setHorizontalHeaderLabels(QStringList() << tr("Property") << tr("Value"));
+    ptable->setModel(ptab);
+    ptable->setItemDelegate(new QComboBoxItemDelegate(ptable));
     lbl.setTextInteractionFlags(Qt::TextEditable | Qt::TextEditorInteraction);
 
     //----------------------------------------------------------------
@@ -87,7 +91,7 @@ MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
             << QPair<QString, QStringList>("DEVICES_TO_DISABLE_ON_UNDOCK", QStringList() << "QComboBox" << "bluetooth" << "wifi" << "wwan");
     //----------------------------------------------------------------
 
-    fillTable();
+    //fillTable();
     createQMenuBar();
     pvbx->addWidget(pbar);
     phbx->addWidget(pbtn);
@@ -102,12 +106,12 @@ MainWindows::MainWindows(QWidget* parent) : QWidget(parent)
     readSettings();
 }
 
-MainWindows::~MainWindows()
+MainWindow::~MainWindow()
 {
     writeSettings();
 }
 
-void MainWindows::writeSettings()
+void MainWindow::writeSettings()
 {
     m_sett.beginGroup("/Settings");
     m_sett.setValue("/geometry", geometry());
@@ -116,7 +120,7 @@ void MainWindows::writeSettings()
     m_sett.endGroup();
 }
 
-void MainWindows::readSettings()
+void MainWindow::readSettings()
 {
     m_sett.beginGroup("/Settings");
     QRect geom = m_sett.value("/geometry", QRect()).toRect();
@@ -126,7 +130,7 @@ void MainWindows::readSettings()
     setGeometry(geom);
 }
 
-void MainWindows::createQMenuBar()
+void MainWindow::createQMenuBar()
 {
     QMenu* pmenu = new QMenu(tr("&File"));
     QMenu* phelp = new QMenu(tr("&Help"));
@@ -136,7 +140,7 @@ void MainWindows::createQMenuBar()
     pbar->addMenu(phelp);
 }
 
-void MainWindows::createQMenuFile(QMenu* pmenu)
+void MainWindow::createQMenuFile(QMenu* pmenu)
 {
     QAction* popn = pmenu->addAction(tr("&Open..."));
     popn->setShortcut(Qt::CTRL + Qt::Key_O);
@@ -153,12 +157,12 @@ void MainWindows::createQMenuFile(QMenu* pmenu)
     pmenu->addAction(tr("&Exit"), qApp, SLOT(quit()));
 }
 
-void MainWindows::createQMenuHelp(QMenu* phelp)
+void MainWindow::createQMenuHelp(QMenu* phelp)
 {
     phelp->addAction(tr("&About QT"), qApp, SLOT(aboutQt()));
 }
 
-void MainWindows::loadTempFile(QMap<QString, QStringList>& val)
+void MainWindow::loadTempFile(QMap<QString, QStringList>& val)
 {
 //    QFile prop("/home/zamazan4ik/listOfProperties.txt");
 //    if(prop.open(QIODevice::ReadOnly))
@@ -172,77 +176,77 @@ void MainWindows::loadTempFile(QMap<QString, QStringList>& val)
 //    }
 }
 
-void MainWindows::fillTable()
-{
-    int row = 0;
-    QMap<QString, QStringList> val;
-    loadTempFile(val);
-    for(auto it = keyword.begin(); it != keyword.end(); ++it)
-    {
-        QTableWidgetItem* tProp = new QTableWidgetItem(it->first);
-        QWidget* pbox;
-        if(it->second.first() == "QLineEdit")
-        {
-            pbox = new QLineEdit("Default");
-        }
-        else if(it->second.first() == "QCheckBox")
-        {
-            pbox = new QCheckBox;
-        }
-        else
-        {
-            auto j = it->second.begin();
-            ++j;
-            pbox = new QComboBox;
-            for(; j != it->second.end(); ++j)
-            {
-                qobject_cast<QComboBox*>(pbox)->addItem(*j);
-            }
-        }
-        ptable->setItem(row, 0, tProp);
-        ptable->setCellWidget(row, 1, pbox);
-        ++row;
-    }
-}
+//void MainWindow::fillTable()
+//{
+//    int row = 0;
+//    QMap<QString, QStringList> val;
+//    loadTempFile(val);
+//    for(auto it = keyword.begin(); it != keyword.end(); ++it)
+//    {
+//        QTableWidgetItem* tProp = new QTableWidgetItem(it->first);
+//        QWidget* pbox;
+//        if(it->second.first() == "QLineEdit")
+//        {
+//            pbox = new QLineEdit("Default");
+//        }
+//        else if(it->second.first() == "QCheckBox")
+//        {
+//            pbox = new QCheckBox;
+//        }
+//        else
+//        {
+//            auto j = it->second.begin();
+//            ++j;
+//            pbox = new QComboBox;
+//            for(; j != it->second.end(); ++j)
+//            {
+//                qobject_cast<QComboBox*>(pbox)->addItem(*j);
+//            }
+//        }
+//        ptable->setItem(row, 0, tProp);
+//        ptable->setCellWidget(row, 1, pbox);
+//        ++row;
+//    }
+//}
 
-void MainWindows::slotSaveTable()
-{
-    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/etc/default", "");
-    //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
-    if(str != "")
-    {
-        QFile file(str);
-        if(!file.open(QIODevice::WriteOnly | QFile::Truncate))
-        {
-            QMessageBox::critical(this, tr("Error"), tr("Could not create the file"));
-            return;
-        }
-        QTextStream out(&file);
-        auto it = keyword.begin();
-        for(int i = 0; i < 59; ++i)
-        {
-            out << ptable->item(i, 0)->text() << "=";
-            if(it->second.first() == "QLineEdit")
-            {
-                out << qobject_cast<QLineEdit*>(ptable->cellWidget(i, 1))->text() << "\n";
-            }
-            else if(it->second.first() == "QCheckBox")
-            {
-                qobject_cast<QCheckBox*>(ptable->cellWidget(i, 1))->isChecked() ?  out << "1" : out << "0";
-                out << "\n";
-            }
-            else
-            {
-                QComboBox* pbox = qobject_cast<QComboBox*>(ptable->cellWidget(i, 1));
-                out << pbox->currentText() << "\n";
-            }
-            ++it;
-        }
-        file.close();
-    }
-}
+//void MainWindow::slotSaveTable()
+//{
+//    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/etc/default", "");
+//    //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
+//    if(str != "")
+//    {
+//        QFile file(str);
+//        if(!file.open(QIODevice::WriteOnly | QFile::Truncate))
+//        {
+//            QMessageBox::critical(this, tr("Error"), tr("Could not create the file"));
+//            return;
+//        }
+//        QTextStream out(&file);
+//        auto it = keyword.begin();
+//        for(int i = 0; i < 59; ++i)
+//        {
+//            out << ptable->item(i, 0)->text() << "=";
+//            if(it->second.first() == "QLineEdit")
+//            {
+//                out << qobject_cast<QLineEdit*>(ptable->cellWidget(i, 1))->text() << "\n";
+//            }
+//            else if(it->second.first() == "QCheckBox")
+//            {
+//                qobject_cast<QCheckBox*>(ptable->cellWidget(i, 1))->isChecked() ?  out << "1" : out << "0";
+//                out << "\n";
+//            }
+//            else
+//            {
+//                QComboBox* pbox = qobject_cast<QComboBox*>(ptable->cellWidget(i, 1));
+//                out << pbox->currentText() << "\n";
+//            }
+//            ++it;
+//        }
+//        file.close();
+//    }
+//}
 
-void MainWindows::slotSaveFile()
+void MainWindow::slotSaveFile()
 {
     QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/etc/default", "");
     //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
@@ -260,7 +264,7 @@ void MainWindows::slotSaveFile()
     }
 }
 
-void MainWindows::slotOpenFile()
+void MainWindow::slotOpenFile()
 {
     QString str = QFileDialog::getOpenFileName(0, tr("Open Dialog"), "/etc/default/", "");
     if(str != "")
@@ -277,7 +281,7 @@ void MainWindows::slotOpenFile()
     }
 }
 
-void MainWindows::slotCallEditor()
+void MainWindow::slotCallEditor()
 {
     QFile file("/etc/default/tlp");
     QFileInfo info(file);
@@ -286,7 +290,7 @@ void MainWindows::slotCallEditor()
     QDesktopServices::openUrl(fileurl);
 }
 
-void MainWindows::slotAC()
+void MainWindow::slotAC()
 {
     QProcess proc;
     proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp ac");
@@ -296,7 +300,7 @@ void MainWindows::slotAC()
     QMessageBox::information(this, "Notification", "AC mode activated");
 }
 
-void MainWindows::slotBAT()
+void MainWindow::slotBAT()
 {
     QProcess proc;
     proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp bat");
@@ -307,12 +311,12 @@ void MainWindows::slotBAT()
     QMessageBox::information(this, "Notification", "Battery mode activated");
 }
 
-void MainWindows::slotSwitchMode()
+void MainWindow::slotSwitchMode()
 {
 
 }
 
-void MainWindows::slotSettings()
+void MainWindow::slotSettings()
 {
 
 }

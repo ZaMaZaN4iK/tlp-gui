@@ -1,6 +1,6 @@
 #include <QtWidgets>
 #include "SystemTray.h"
-#include "mainwindow.h"
+#include "MainWindow.h"
 
 // ----------------------------------------------------------------------
 SystemTray::SystemTray(QWidget* pwgt /*=0*/) : QWidget(pwgt)
@@ -65,7 +65,7 @@ void SystemTray::slotShowHide()
 void SystemTray::slotShowMessage()
 {
     m_ptrayIcon->showMessage(tr("Information"),
-                             tr("You have selected the ") + qobject_cast<MainWindows*>(this->parent())->curProf +
+                             tr("You have selected the ") + qobject_cast<MainWindow*>(this->parent())->curProf +
                              tr("\"Show Message!\" option"),
                              QSystemTrayIcon::Information,
                              3000

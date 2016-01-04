@@ -3,13 +3,16 @@
 #include <QtWidgets>
 #include <QSettings>
 #include "SystemTray.h"
+#include "TableModel.h"
 
 class SystemTray;
 
-class MainWindows : public QWidget
+class MainWindow : public QWidget
 {
     Q_OBJECT
 private:
+    friend SystemTray;
+
     static const int columnTable = 2;
 
     QList<QPair<QString, QStringList> > keyword;
@@ -18,7 +21,8 @@ private:
     QHBoxLayout* phbx;
     QPushButton* pbtn, *pAC, *pBAT, *pbtnTab;
     QMenuBar* pbar;
-    QTableWidget* ptable;
+    TableModel* ptab;
+    QTableView* ptable;
     SystemTray* st;
     QTextBrowser lbl;
     QSettings m_sett;
@@ -32,16 +36,15 @@ private:
     void createQMenuBar();
     void createQMenuFile(QMenu*);
     void createQMenuHelp(QMenu*);
-    void fillTable();
+    //void fillTable();
     void loadTempFile(QMap<QString, QStringList>&);//TODO : Only for studying and testing
 
 public :
-    MainWindows(QWidget* parent = 0);
-    ~MainWindows();
+    MainWindow(QWidget* parent = 0);
+    ~MainWindow();
 
-    friend SystemTray;
 public slots:
-    void slotSaveTable();
+    //void slotSaveTable();
     void slotOpenFile();
     void slotSaveFile();
     void slotCallEditor();

@@ -14,19 +14,26 @@ TEMPLATE = app
 CONFIG += c++11
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     WindowSettings.cpp \
     SystemTray.cpp \
     HelpBrowser.cpp \
     Backend.cpp \
-    Parser.cpp
+    Parser.cpp \
+    MainWindow.cpp \
+    TableModel.cpp \
+    Property.cpp \
+    QComboBoxItemDelegate.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     WindowSettings.h \
     SystemTray.h \
     HelpBrowser.h \
     Backend.h \
-    Parser.h
+    Parser.h \
+    MainWindow.h \
+    TableModel.h \
+    Property.h \
+    QComboBoxItemDelegate.h
 
 FORMS    +=
 
