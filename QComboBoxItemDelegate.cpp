@@ -9,7 +9,7 @@ QWidget* QComboBoxItemDelegate::createEditor(QWidget *parent,
                             const QStyleOptionViewItem &option,
                             const QModelIndex &index)
 {
-    if (index.column() == COL_VALUE)
+    if (index.column() < 1000)
     {
         QStringList values;
         values << "Enabled" << "Disabled";
@@ -27,7 +27,7 @@ QWidget* QComboBoxItemDelegate::createEditor(QWidget *parent,
 void QComboBoxItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                                          const QModelIndex &index)
 {
-    if(index.column() == COL_VALUE)
+    if(index.column() < 1000)
     {
         QComboBox* comboBox = qobject_cast<QComboBox*>(editor);
         QString value = comboBox->currentText();
