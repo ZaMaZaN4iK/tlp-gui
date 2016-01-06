@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     MainWindow.cpp \
     TableModel.cpp \
     Property.cpp \
-    QComboBoxItemDelegate.cpp
+    QComboBoxItemDelegate.cpp \
+    Tabel.cpp
 
 HEADERS  += \
     WindowSettings.h \
@@ -33,7 +34,8 @@ HEADERS  += \
     MainWindow.h \
     TableModel.h \
     Property.h \
-    QComboBoxItemDelegate.h
+    QComboBoxItemDelegate.h \
+    Tabel.h
 
 FORMS    +=
 

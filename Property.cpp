@@ -1,8 +1,8 @@
 #include "Property.h"
 
-Property::Property(const QString name, const QString defVal, const QStringList variants,
-                   const bool isImp) : m_name(name), m_defVal(defVal), m_variants(variants),
-                                             m_isImp(isImp)
+Property::Property(const QString name, const QString defVal, const QStringList variants, const TypeOfWidget type,
+                   const bool isImp) : m_name(name), m_defVal(defVal), m_variants(variants), m_type(type),
+                                       m_isImp(isImp)
 {
 }
 
@@ -21,6 +21,11 @@ QString Property::getDefVal() const
 QStringList Property::getVariants() const
 {
     return m_variants;
+}
+
+Property::TypeOfWidget Property::getTypeWidget() const
+{
+    return m_type;
 }
 
 bool Property::isImportant() const
@@ -44,6 +49,11 @@ void Property::setDefVal(const QString& defVal)
 void Property::setVariants(const QStringList& variants)
 {
     m_variants = variants;
+}
+
+void Property::setTypeWidget(const TypeOfWidget type)
+{
+    m_type = type;
 }
 
 void Property::setIsImportant(bool flag)

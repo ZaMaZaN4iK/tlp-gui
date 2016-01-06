@@ -11,7 +11,7 @@ class TableModel : public QAbstractTableModel
     Q_OBJECT
 private:
     int m_nRows, m_nColumns;
-    QList<Property> m_list;
+    QVector<Property> m_prop;
     QHash<QModelIndex, QVariant> m_hash;
 
 public:

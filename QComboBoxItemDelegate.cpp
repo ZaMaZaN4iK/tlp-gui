@@ -7,9 +7,9 @@ QComboBoxItemDelegate::QComboBoxItemDelegate(QObject* parent) : QStyledItemDeleg
 
 QWidget* QComboBoxItemDelegate::createEditor(QWidget *parent,
                             const QStyleOptionViewItem &option,
-                            const QModelIndex &index)
+                            const QModelIndex &index) const
 {
-    if (index.column() < 1000)
+    if (index.column() == COL_VALUE)
     {
         QStringList values;
         values << "Enabled" << "Disabled";
@@ -25,9 +25,9 @@ QWidget* QComboBoxItemDelegate::createEditor(QWidget *parent,
 }
 
 void QComboBoxItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                         const QModelIndex &index)
+                                         const QModelIndex &index) const
 {
-    if(index.column() < 1000)
+    if(index.column() == COL_VALUE)
     {
         QComboBox* comboBox = qobject_cast<QComboBox*>(editor);
         QString value = comboBox->currentText();
@@ -39,10 +39,17 @@ void QComboBoxItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
     }
 }
 
-void QComboBoxItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index)
+void QComboBoxItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QString value = index.model()->data(index, Qt::EditRole).toString();
-    //qDebug() << "Value:" << value;
-    QComboBox* comboBox = qobject_cast<QComboBox*>(editor);
-    comboBox->setCurrentIndex(comboBox->findText(value));
+    if(index.column() == COL_VALUE)
+    {
+        QString value = index.model()->data(index, Qt::EditRole).toString();
+        //qDebug() << "Value:" << value;
+        QComboBox* comboBox = qobject_cast<QComboBox*>(editor);
+        comboBox->setCurrentIndex(comboBox->findText(value));
+    }
+    else
+    {
+        QStyledItemDelegate::setEditorData(editor, index);
+    }
 }

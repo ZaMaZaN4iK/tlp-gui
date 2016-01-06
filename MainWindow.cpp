@@ -2,6 +2,7 @@
 #include "SystemTray.h"
 #include "TableModel.h"
 #include "QComboBoxItemDelegate.h"
+#include <QtAlgorithms>
 
 MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 {
@@ -25,9 +26,46 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
     connect(pAC, SIGNAL(clicked()), SLOT(slotAC()));
     connect(pBAT, SIGNAL(clicked()), SLOT(slotBAT()));
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ptable->setModel(ptab);
     ptable->setItemDelegate(new QComboBoxItemDelegate(ptable));
     lbl.setTextInteractionFlags(Qt::TextEditable | Qt::TextEditorInteraction);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //----------------------------------------------------------------
     keyword << QPair<QString, QStringList>("TLP_ENABLE", QStringList() << "QLineEdit")
@@ -296,8 +334,16 @@ void MainWindow::slotAC()
     proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp ac");
     proc.waitForFinished();
     QByteArray arr = proc.readAll();
-    qDebug() << arr;
-    QMessageBox::information(this, "Notification", "AC mode activated");
+    QString str = arr.data();
+    qDebug() << str << QString("TLP started in AC mode.\n");
+    if(qFind(str, QString("TLP started in AC mode.\n")) != str.end())
+    {
+        QMessageBox::information(this, "Notification", "AC mode has activated");
+    }
+    else
+    {
+        QMessageBox::warning(this, "Warning", "AC mode hasn't activated");
+    }
 }
 
 void MainWindow::slotBAT()
@@ -307,7 +353,6 @@ void MainWindow::slotBAT()
     proc.waitForFinished();
     QByteArray arr = proc.readAll();
     qDebug() << arr;
-
     QMessageBox::information(this, "Notification", "Battery mode activated");
 }
 
