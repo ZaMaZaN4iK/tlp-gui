@@ -13,7 +13,6 @@ SystemTray::SystemTray(QWidget* pwgt /*=0*/) : QWidget(pwgt)
     connect(pactShowHide, SIGNAL(triggered()),
             this,         SLOT(slotShowHide())
            );
-
     QAction* pactShowMessage = new QAction(tr("S&how Message"), this);
     connect(pactShowMessage, SIGNAL(triggered()),
             this,            SLOT(slotShowMessage())

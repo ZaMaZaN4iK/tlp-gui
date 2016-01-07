@@ -1,8 +1,9 @@
 #include "Property.h"
 
-Property::Property(const QString name, const QString defVal, const QStringList variants, const TypeOfWidget type,
-                   const bool isImp) : m_name(name), m_defVal(defVal), m_variants(variants), m_type(type),
-                                       m_isImp(isImp)
+Property::Property(const QString name, const QString defVal, const QStringList variants,
+                   const TypeOfWidget flag, const PropertyGroup group, const bool danger) : m_name(name),
+                   m_defVal(defVal), m_variants(variants), m_type(flag), m_group(group),
+                                       m_isDanger(danger)
 {
 }
 
@@ -28,11 +29,15 @@ Property::TypeOfWidget Property::getTypeWidget() const
     return m_type;
 }
 
-bool Property::isImportant() const
+Property::PropertyGroup Property::getGroup() const
 {
-    return m_isImp;
+    return m_group;
 }
 
+bool Property::isDanger() const
+{
+    return m_isDanger;
+}
 
 
 
@@ -56,7 +61,12 @@ void Property::setTypeWidget(const TypeOfWidget type)
     m_type = type;
 }
 
-void Property::setIsImportant(bool flag)
+void Property::setGroup(const PropertyGroup group)
 {
-    m_isImp = flag;
+    m_group = group;
+}
+
+void Property::setIsDanger(bool flag)
+{
+    m_isDanger = flag;
 }

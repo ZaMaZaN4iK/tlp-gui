@@ -5,6 +5,9 @@ TableModel::TableModel(int nRows, int nColumns, QObject* pobj)
     , m_nRows(nRows)
     , m_nColumns(nColumns)
 {
+//    Property(const QString name, const QString defVal, const QStringList variants,
+//             const TypeOfWidget flag, const PropertyGroup group = OTHER, const bool danger = false);
+    //m_prop << Property()
 }
 
 QVariant TableModel::data(const QModelIndex& index, int nRole) const
