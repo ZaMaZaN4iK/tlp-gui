@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
     pBAT = new QPushButton(tr("&Battery mode"));
     pbtnTab = new QPushButton(tr("&Save Table to File"));
     pbar = new QMenuBar;
-    ptab = new TableModel(10, 10, this);
+    ptab = new TableModel(10, 2, this);
     ptable = new QTableView(this);
     st = new SystemTray(this);
 
