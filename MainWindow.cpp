@@ -3,6 +3,8 @@
 #include "TableModel.h"
 #include "QComboBoxItemDelegate.h"
 #include <QtAlgorithms>
+#include "Contstants.h"
+#include "Parser.h"
 
 MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 {
@@ -21,22 +23,11 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
     ptable = new QTableView(this);
     st = new SystemTray(this);
 
+
     connect(pbtnTab, SIGNAL(clicked()), SLOT(slotSaveTable()));
     connect(pbtn, SIGNAL(clicked()), SLOT(slotCallEditor()));
     connect(pAC, SIGNAL(clicked()), SLOT(slotAC()));
     connect(pBAT, SIGNAL(clicked()), SLOT(slotBAT()));
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -48,23 +39,10 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    for(int i = 0; i < ptab->rowCount(QModelIndex()); ++i)
+    {
+        ptable->openPersistentEditor(ptab->index(i, 1));
+    }
 
 
     //----------------------------------------------------------------
@@ -313,9 +291,11 @@ void MainWindow::slotOpenFile()
             QMessageBox::critical(this, tr("Error"), tr("Could not open the file"));
             return;
         }
+        Parser out(filename);
+        filename.reset();
         QTextStream in(&filename);
         lbl.setText(in.readAll());
-        filename.close();
+
     }
 }
 

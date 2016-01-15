@@ -20,7 +20,6 @@ Parser::Parser(QFile& file)
                 int posEqual = str.indexOf('=');
                 value = str.mid(posEqual + 1).trimmed();
                 prop.insert(x, value);
-                out << x << ' ' << value << '\n';
                 break;
             }
         }

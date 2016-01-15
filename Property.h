@@ -13,7 +13,7 @@ private:
     QStringList m_variants;
     TypeOfWidget m_type;
     PropertyGroup m_group;
-    bool m_isDanger;
+    bool m_isDanger, m_isImp, m_isActive;
 public:
     Property(const QString name, const QString defVal, const QStringList variants,
              const TypeOfWidget flag, const PropertyGroup group = OTHER, const bool danger = false);

@@ -17,9 +17,12 @@ QVariant TableModel::data(const QModelIndex& index, int nRole) const
         return QVariant();
     }
     QString str = QString("%1,%2").arg(index.row() + 1).arg(index.column() + 1);
+//    return (nRole == Qt::DisplayRole || nRole == Qt::EditRole)
+//           ? m_hash.value(index, QVariant(str))
+//           : QVariant();
     return (nRole == Qt::DisplayRole || nRole == Qt::EditRole)
-           ? m_hash.value(index, QVariant(str))
-           : QVariant();
+                       ? 2
+                       : QVariant();
 }
 
 bool TableModel::setData(const QModelIndex& index,

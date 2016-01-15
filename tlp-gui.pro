@@ -37,7 +37,8 @@ HEADERS  += \
     Property.h \
     QComboBoxItemDelegate.h \
     Tabel.h \
-    GroupQCheckBox.h
+    GroupQCheckBox.h \
+    Contstants.h
 
 FORMS    +=
 

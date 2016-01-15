@@ -44,9 +44,8 @@ void QComboBoxItemDelegate::setEditorData(QWidget *editor, const QModelIndex &in
     if(index.column() == COL_VALUE)
     {
         QString value = index.model()->data(index, Qt::EditRole).toString();
-        //qDebug() << "Value:" << value;
         QComboBox* comboBox = qobject_cast<QComboBox*>(editor);
-        comboBox->setCurrentIndex(comboBox->findText(value));
+        comboBox->setCurrentIndex(0);
     }
     else
     {
