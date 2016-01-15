@@ -23,7 +23,6 @@ SOURCES += main.cpp\
     TableModel.cpp \
     Property.cpp \
     QComboBoxItemDelegate.cpp \
-    Tabel.cpp \
     GroupQCheckBox.cpp
 
 HEADERS  += \
@@ -36,7 +35,6 @@ HEADERS  += \
     TableModel.h \
     Property.h \
     QComboBoxItemDelegate.h \
-    Tabel.h \
     GroupQCheckBox.h \
     Contstants.h
 

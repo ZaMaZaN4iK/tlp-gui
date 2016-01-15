@@ -19,6 +19,11 @@ QString Property::getDefVal() const
     return m_defVal;
 }
 
+QString Property::getCurVal() const
+{
+    return m_curVal;
+}
+
 QStringList Property::getVariants() const
 {
     return m_variants;

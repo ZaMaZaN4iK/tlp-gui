@@ -47,8 +47,9 @@ public slots:
     //void slotSaveTable();
     void slotOpenFile();
     void slotSaveFile();
+    void slotSaveTable();
     void slotCallEditor();
-    void slotSwitchMode();
+    void slotSwitchMode(QString mode);
     void slotSettings();
     void slotAC();
     void slotBAT();

@@ -13,6 +13,9 @@ private:
     QMap<QString, QVariant> prop;
 public:
     Parser(QFile& file);
+
+    QVector<QPair<QString, QVariant> > getVector() const;
+
     static bool check();
 };
 

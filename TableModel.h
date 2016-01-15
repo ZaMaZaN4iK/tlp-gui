@@ -21,7 +21,7 @@ public:
     bool setData(const QModelIndex& index,
                  const QVariant&    value,
                  int                nRole);
-
+    bool setData(const QVector<QPair<QString, QVariant> >);
     int rowCount(const QModelIndex&) const;
     int columnCount(const QModelIndex&) const;
     Qt::ItemFlags flags(const QModelIndex& index) const;

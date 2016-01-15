@@ -9,7 +9,8 @@ class Property
 private:
     enum TypeOfWidget{QLineEdit, QCheckBox, QComboBox};
     enum PropertyGroup{MAIN, CPU, DISK, THINKPAD, RADIO, RADEON, USB, PCI, OTHER};
-    QString m_name, m_defVal;
+    QString m_name;
+    QString m_defVal, m_curVal;
     QStringList m_variants;
     TypeOfWidget m_type;
     PropertyGroup m_group;
@@ -20,6 +21,7 @@ public:
 
     QString getName() const;
     QString getDefVal() const;
+    QString getCurVal() const;
     QStringList getVariants() const;
     TypeOfWidget getTypeWidget() const;
     PropertyGroup getGroup() const;

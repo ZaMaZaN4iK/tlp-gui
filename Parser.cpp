@@ -20,10 +20,20 @@ Parser::Parser(QFile& file)
                 int posEqual = str.indexOf('=');
                 value = str.mid(posEqual + 1).trimmed();
                 prop.insert(x, value);
-                out << x << ' ' << value << '\n';
                 break;
             }
         }
     }
     outf.close();
 }
+
+QVector<QPair<QString, QVariant> > Parser::getVector() const
+{
+    QVector<QPair<QString, QVariant> > result;
+    for(const auto& x : NamesOfProp)
+    {
+        result << QPair<QString, QVariant>(x, prop[x]);
+    }
+    return result;
+}
+
