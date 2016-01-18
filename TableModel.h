@@ -14,6 +14,8 @@ private:
     QVector<Property> m_prop;
     QHash<QModelIndex, QVariant> m_hash;
 
+    QVariant getVal(const Property&, const int column) const;
+
 public:
     TableModel(int nRows, int nColumns, QObject* pobj = 0);
 

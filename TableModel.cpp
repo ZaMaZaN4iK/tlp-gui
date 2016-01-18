@@ -1,4 +1,5 @@
 #include "TableModel.h"
+#include "Contstants.h"
 
 TableModel::TableModel(int nRows, int nColumns, QObject* pobj)
     : QAbstractTableModel(pobj)
@@ -16,30 +17,36 @@ QVariant TableModel::data(const QModelIndex& index, int nRole) const
     {
         return QVariant();
     }
-    QString str = QString("%1,%2").arg(index.row() + 1).arg(index.column() + 1);
-//    return (nRole == Qt::DisplayRole || nRole == Qt::EditRole)
-//           ? m_hash.value(index, QVariant(str))
-//           : QVariant();
     return (nRole == Qt::DisplayRole || nRole == Qt::EditRole)
-                       ? m_hash[index]
-                       : QVariant();
+                   ? m_hash[index]
+                   : QVariant();
+}
+
+QVariant TableModel::getVal(const Property& var,const int column) const
+{
+    QVariant res;
+    switch(TypeColumn(column))
+    {
+    case COL_NAME:
+        res = var.getName(); break;
+    case COL_VALUE:
+        res = var.getCurVal(); break;
+    }
+    return res;
 }
 
 bool TableModel::setData(const QVector<QPair<QString, QVariant> > prop)
 {
-//    QModelIndex index = model2.index(row, column);
-//    int value = (row+1) * (column+1);
-//    model2.setData(index, QVariant(value), Qt::EditRole);
-    for(int row = 0; row < prop.size(); ++row)
+    for(int row = 0; row < NumOfProp; ++row)
     {
-        for(int column = 0; column < 2; ++column)
+        for(int column = 0; column < NumOfColumn; ++column)
         {
             QModelIndex index = this->index(row, column);
-            if(column == 0)
+            if(TypeColumn(column) == COL_NAME)
             {
                 this->setData(index, QVariant(prop[row].first), Qt::EditRole);
             }
-            else
+            else if(TypeColumn(column) == COL_VALUE)
             {
                 this->setData(index, QVariant(prop[row].second), Qt::EditRole);
             }

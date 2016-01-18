@@ -28,7 +28,7 @@ const QStringList NamesOfProp({"TLP_ENABLE", "TLP_DEFAULT_MODE", "DISK_IDLE_SECS
                                "DEVICES_TO_ENABLE_ON_WIFI_DISCONNECT", "DEVICES_TO_ENABLE_ON_WWAN_DISCONNECT",
                                "DEVICES_TO_ENABLE_ON_DOCK", "DEVICES_TO_DISABLE_ON_DOCK", "DEVICES_TO_ENABLE_ON_UNDOCK",
                                "DEVICES_TO_DISABLE_ON_UNDOCK", "DEVICES_TO_DISABLE_ON_UNDOCK" });
-const int NumOfProp = 80;
-enum TypeColumn {COL_CHECK, COL_NAME, COL_VALUE};
+const int NumOfProp = 80, NumOfColumn = 2;
+enum TypeColumn {COL_NAME, COL_VALUE};
 
 #endif // CONTSTANTS_H

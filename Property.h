@@ -26,6 +26,8 @@ public:
     TypeOfWidget getTypeWidget() const;
     PropertyGroup getGroup() const;
     bool isDanger() const;
+    bool isImportant() const;
+    bool isActive() const;
 
     void setName(const QString& name);
     void setDefVal(const QString& defVal);
@@ -33,6 +35,7 @@ public:
     void setTypeWidget(const TypeOfWidget type);
     void setGroup(const PropertyGroup group);
     void setIsDanger(bool flag);
+    void setIsActive(bool flag);
 };
 
 #endif // PROPERTY_H

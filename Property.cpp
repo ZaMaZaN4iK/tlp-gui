@@ -7,8 +7,6 @@ Property::Property(const QString name, const QString defVal, const QStringList v
 {
 }
 
-
-
 QString Property::getName() const
 {
     return m_name;
@@ -44,7 +42,15 @@ bool Property::isDanger() const
     return m_isDanger;
 }
 
+bool Property::isActive() const
+{
+    return m_isActive;
+}
 
+bool Property::isImportant() const
+{
+    return m_isImp;
+}
 
 void Property::setName(const QString& name)
 {
@@ -74,4 +80,9 @@ void Property::setGroup(const PropertyGroup group)
 void Property::setIsDanger(bool flag)
 {
     m_isDanger = flag;
+}
+
+void Property::setIsActive(bool flag)
+{
+    m_isActive = flag;
 }
