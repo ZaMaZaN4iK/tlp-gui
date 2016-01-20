@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     TableModel.cpp \
     Property.cpp \
     QComboBoxItemDelegate.cpp \
-    GroupQCheckBox.cpp
+    GroupQCheckBox.cpp \
+    DefaultInitializer.cpp
 
 HEADERS  += \
     WindowSettings.h \
@@ -36,7 +37,9 @@ HEADERS  += \
     Property.h \
     QComboBoxItemDelegate.h \
     GroupQCheckBox.h \
-    Contstants.h
+    Contstants.h \
+    DefaultInitializer.h \
+    InitializeProperties.h
 
 FORMS    +=
 
