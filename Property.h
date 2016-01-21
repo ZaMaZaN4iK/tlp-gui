@@ -14,11 +14,11 @@ private:
     QStringList m_variants;
     TypeOfWidget m_type;
     PropertyGroup m_group;
-    bool m_isDanger, m_isImp, m_isActive;
+    bool m_isDanger, m_isImp, m_isActive, m_isText;
 public:
     Property(const QString name, const QString defVal, const QStringList variants,
              const TypeOfWidget flag, const PropertyGroup group = OTHER, const bool danger = false,
-             const bool importance = false, const bool active = true);
+             const bool importance = false, const bool active = true, const bool isText = false);
 
     QString getName() const;
     QString getDefVal() const;
@@ -29,6 +29,7 @@ public:
     bool isDanger() const;
     bool isImportant() const;
     bool isActive() const;
+    bool isText() const;
 
     void setName(const QString& name);
     void setDefVal(const QString& defVal);
@@ -37,6 +38,8 @@ public:
     void setGroup(const PropertyGroup group);
     void setIsDanger(bool flag);
     void setIsActive(bool flag);
+    void setIsImportant(bool flag);
+    void setIsText(bool flag);
 };
 
 #endif // PROPERTY_H

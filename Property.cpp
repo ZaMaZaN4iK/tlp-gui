@@ -1,9 +1,10 @@
 #include "Property.h"
 
 Property::Property(const QString name, const QString defVal, const QStringList variants,
-                   const TypeOfWidget flag, const PropertyGroup group, const bool danger) : m_name(name),
+                   const TypeOfWidget flag, const PropertyGroup group, const bool danger,
+                   const bool importance, const bool active, const bool isText) : m_name(name),
                    m_defVal(defVal), m_variants(variants), m_type(flag), m_group(group),
-                                       m_isDanger(danger)
+                   m_isDanger(danger), m_isImp(importance), m_isActive(active), m_isText(isText)
 {
 }
 
@@ -52,6 +53,13 @@ bool Property::isImportant() const
     return m_isImp;
 }
 
+bool Property::isText() const
+{
+    return m_isText;
+}
+
+
+
 void Property::setName(const QString& name)
 {
     m_name = name;
@@ -86,3 +94,15 @@ void Property::setIsActive(bool flag)
 {
     m_isActive = flag;
 }
+
+void Property::setIsImportant(bool flag)
+{
+    m_isImp = flag;
+}
+
+void Property::setIsText(bool flag)
+{
+    m_isText = flag;
+}
+
+

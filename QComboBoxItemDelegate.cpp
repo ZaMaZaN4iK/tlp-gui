@@ -1,6 +1,7 @@
 #include <QComboBox>
 #include <QCheckBox>
 #include "QComboBoxItemDelegate.h"
+#include "Contstants.h"
 
 QComboBoxItemDelegate::QComboBoxItemDelegate(QObject* parent) : QStyledItemDelegate(parent)
 {
