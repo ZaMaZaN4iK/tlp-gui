@@ -24,7 +24,6 @@ private:
     TableModel* ptab;
     QTableView* ptable;
     SystemTray* st;
-    QTextBrowser lbl;
     QSettings m_sett;
 
     bool state;

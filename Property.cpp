@@ -6,6 +6,11 @@ Property::Property(const QString name, const QString defVal, const QStringList v
                    m_defVal(defVal), m_variants(variants), m_type(flag), m_group(group),
                    m_isDanger(danger), m_isImp(importance), m_isActive(active), m_isText(isText)
 {
+    m_curVal = m_defVal;
+}
+
+Property::Property()
+{
 }
 
 QString Property::getName() const
@@ -68,6 +73,11 @@ void Property::setName(const QString& name)
 void Property::setDefVal(const QString& defVal)
 {
     m_defVal = defVal;
+}
+
+void Property::setCurVal(const QString &curVal)
+{
+    m_curVal = curVal;
 }
 
 void Property::setVariants(const QStringList& variants)

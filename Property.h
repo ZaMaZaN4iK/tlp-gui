@@ -3,12 +3,14 @@
 
 #include <QString>
 #include <QObject>
+#include "Contstants.h"
 
 class Property
 {
-private:
+public :
     enum TypeOfWidget{QLineEdit, QCheckBox, QComboBox};
     enum PropertyGroup{MAIN, CPU, DISK, THINKPAD, RADIO, RADEON, USB, PCI, OTHER};
+private:
     QString m_name, m_comment;
     QString m_defVal, m_curVal;
     QStringList m_variants;
@@ -16,6 +18,7 @@ private:
     PropertyGroup m_group;
     bool m_isDanger, m_isImp, m_isActive, m_isText;
 public:
+    Property();
     Property(const QString name, const QString defVal, const QStringList variants,
              const TypeOfWidget flag, const PropertyGroup group = OTHER, const bool danger = false,
              const bool importance = false, const bool active = true, const bool isText = false);
@@ -33,6 +36,7 @@ public:
 
     void setName(const QString& name);
     void setDefVal(const QString& defVal);
+    void setCurVal(const QString& curVal);
     void setVariants(const QStringList& variants);
     void setTypeWidget(const TypeOfWidget type);
     void setGroup(const PropertyGroup group);

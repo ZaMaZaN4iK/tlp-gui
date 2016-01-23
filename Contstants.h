@@ -2,6 +2,8 @@
 #define CONTSTANTS_H
 
 #include <QStringList>
+#include <QVector>
+#include "Property.h"
 
 const QStringList NamesOfProp({"TLP_ENABLE", "TLP_DEFAULT_MODE", "DISK_IDLE_SECS_ON_AC", "DISK_IDLE_SECS_ON_BAT",
                                "MAX_LOST_WORK_SECS_ON_AC", "MAX_LOST_WORK_SECS_ON_BAT", "CPU_SCALING_GOVERNOR_ON_AC",
@@ -28,6 +30,9 @@ const QStringList NamesOfProp({"TLP_ENABLE", "TLP_DEFAULT_MODE", "DISK_IDLE_SECS
                                "DEVICES_TO_ENABLE_ON_WIFI_DISCONNECT", "DEVICES_TO_ENABLE_ON_WWAN_DISCONNECT",
                                "DEVICES_TO_ENABLE_ON_DOCK", "DEVICES_TO_DISABLE_ON_DOCK", "DEVICES_TO_ENABLE_ON_UNDOCK",
                                "DEVICES_TO_DISABLE_ON_UNDOCK"});
+
+//enum TypeOfWidget{QLineEdit, QCheckBox, QComboBox};
+//enum PropertyGroup{MAIN, CPU, DISK, THINKPAD, RADIO, RADEON, USB, PCI, OTHER};
 
 
 

@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 
 
 
-    ptab = new TableModel(80, 2, this);
+    ptab = new TableModel(59, 2, this);
+    qDebug() << "Done Table\n";
     ptable = new QTableView(this);
     st = new SystemTray(this);
 
@@ -41,9 +42,9 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 
     ptable->setModel(ptab);
     ptable->setItemDelegate(new QComboBoxItemDelegate(ptable));
-    lbl.setTextInteractionFlags(Qt::TextEditable | Qt::TextEditorInteraction);
+    //lbl.setTextInteractionFlags(Qt::TextEditable | Qt::TextEditorInteraction);
 
-
+    qDebug() << "Done all for table\n";
 
 
     for(int i = 0; i < ptab->rowCount(QModelIndex()); ++i)
@@ -60,7 +61,7 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
     phbx->addWidget(pBAT);
     phbx->addWidget(pbtnTab);
     pvbx->addLayout(phbx);
-    pvbx->addWidget(&lbl);
+    //pvbx->addWidget(&lbl);
     pvbx->addWidget(ptable);
     setLayout(pvbx);
     setWindowTitle("TLP GUI v.0.0.1");
@@ -112,7 +113,7 @@ void MainWindow::createQMenuFile(QMenu* pmenu)
     connect(psv, SIGNAL(triggered()), SLOT(slotSaveFile()));
 
     QAction* psett = pmenu->addAction(tr("&Settings"));
-    psv->setShortcut(Qt::CTRL + Qt::Key_P);
+    psett->setShortcut(Qt::CTRL + Qt::Key_P);
     connect(psett, SIGNAL(triggered()), SLOT(slotSettings()));
 
     pmenu->addAction(tr("&Exit"), qApp, SLOT(quit()));
@@ -126,7 +127,7 @@ void MainWindow::createQMenuHelp(QMenu* phelp)
 
 void MainWindow::slotSaveTable()
 {
-    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/etc/default", "");
+    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/home/zamazan4ik/", "");
     //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
     if(str != "")
     {
@@ -137,21 +138,14 @@ void MainWindow::slotSaveTable()
             return;
         }
         QTextStream out(&file);
-        auto it = keyword.begin();
-        for(int i = 0; i < 80; ++i)
-        {
-            QModelIndex index1 = ptab->index(i, 0);
-            QModelIndex index2 = ptab->index(i, 1);
-            out << ptab->data(index1, Qt::DisplayRole).toString()
-                << "=" << ptab->data(index2, Qt::DisplayRole).toString() << '\n';
-        }
+        ptab->Save(out);
         file.close();
     }
 }
 
 void MainWindow::slotSaveFile()
 {
-    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/etc/default", "");
+    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/home/zamazan4ik", "");
     //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
     if(str != "")
     {
@@ -162,7 +156,7 @@ void MainWindow::slotSaveFile()
             return;
         }
         QTextStream out(&file);
-        out << lbl.toPlainText();
+        //out << lbl.toPlainText();
         file.close();
     }
     slotSaveTable();
@@ -183,7 +177,7 @@ void MainWindow::slotOpenFile()
         ptab->setData(out.getVector());
         filename.reset();
         QTextStream in(&filename);
-        lbl.setText(in.readAll());
+        //lbl.setText(in.readAll());
 
     }
 }
@@ -227,14 +221,23 @@ void MainWindow::slotBAT()
 
 void MainWindow::slotSwitchMode(QString mode)
 {
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("cp-866"));
     QProcess proc;
-    mode == "AC" ? proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp ac")
-                 : proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp bat");
-    proc.waitForFinished();
-    QByteArray arr = proc.readAll();
-    qDebug() << arr;
-    mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode has activated")
-                 : QMessageBox::information(this, "Notification", "Battery mode activated");
+//    mode == "AC" ? proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp ac")
+//                 : proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp bat");
+    proc.start("echo кракозябры");
+    proc.waitForFinished(-1);
+    QString str = proc.readAll();
+    qDebug() << QString::fromUtf8(proc.readAllStandardOutput());
+//    if(str.indexOf("TLP") == -1)
+//    {
+//        mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode hasn't activated")
+//                     : QMessageBox::information(this, "Notification", "Battery mode hasn't activated");
+//        return;
+//    }
+//    //QMessageBox::information(this, "Notification", str);
+//    mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode has activated")
+//                 : QMessageBox::information(this, "Notification", "Battery mode has activated");
 }
 
 void MainWindow::slotSettings()
