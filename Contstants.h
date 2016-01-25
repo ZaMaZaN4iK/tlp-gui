@@ -38,7 +38,7 @@ const QStringList NamesOfProp({"TLP_ENABLE", "TLP_DEFAULT_MODE", "DISK_IDLE_SECS
 
 
 
-const int NumOfProp = NamesOfProp.size(), NumOfColumn = 2;
-enum TypeColumn {COL_NAME, COL_VALUE};
+const int NumOfProp = NamesOfProp.size(), NumOfColumn = 3;
+enum TypeColumn {COL_ACTIVE, COL_NAME, COL_VALUE};
 
 #endif // CONTSTANTS_H

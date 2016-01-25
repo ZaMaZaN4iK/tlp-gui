@@ -1,0 +1,13 @@
+- Add Help System(choose between QTextBrowser and Qt Assistant,
+    solve problem with handmaking XML QHP files).
+- Add dynamic table
+- Add multichoosing widget
+- Add comments for every property
+- Add Settings window
+- Add checker for every input value (regexp)
+- Add saving root privilegies
+- Add checker for config (current and existing)
+- Add editing current TLP config
+- Add translating for other languages(current languages : English)
+- Add switching between modes without root priviligues
+- Refactor code

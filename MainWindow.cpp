@@ -21,10 +21,17 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
     pbar = new QMenuBar;
 
 
+    QVector<QString> list({"Active", "Property", "Values"});
 
-    ptab = new TableModel(59, 2, this);
-    qDebug() << "Done Table\n";
+    ptab = new TableModel(59, NumOfColumn, this);
+    for(int i = 0;i < 3;++i)
+    {
+        qDebug() << ptab->setHeaderData(i, Qt::Horizontal, list[i], Qt::DisplayRole);
+    }
     ptable = new QTableView(this);
+
+
+
     st = new SystemTray(this);
 
     QSignalMapper* mapper = new QSignalMapper(this);
@@ -42,17 +49,13 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 
     ptable->setModel(ptab);
     ptable->setItemDelegate(new QComboBoxItemDelegate(ptable));
-    //lbl.setTextInteractionFlags(Qt::TextEditable | Qt::TextEditorInteraction);
-
-    qDebug() << "Done all for table\n";
-
-
     for(int i = 0; i < ptab->rowCount(QModelIndex()); ++i)
     {
-        //ptable->openPersistentEditor(ptab->index(i, 0));
-        ptable->openPersistentEditor(ptab->index(i, 1));
-        //ptable->openPersistentEditor(ptab->index(i, 0));
+        ptable->openPersistentEditor(ptab->index(i, 0));
+        //ptable->openPersistentEditor(ptab->index(i, 1));
+        ptable->openPersistentEditor(ptab->index(i, 2));
     }
+
 
     createQMenuBar();
     pvbx->addWidget(pbar);
@@ -61,7 +64,6 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
     phbx->addWidget(pBAT);
     phbx->addWidget(pbtnTab);
     pvbx->addLayout(phbx);
-    //pvbx->addWidget(&lbl);
     pvbx->addWidget(ptable);
     setLayout(pvbx);
     setWindowTitle("TLP GUI v.0.0.1");
@@ -76,7 +78,13 @@ MainWindow::~MainWindow()
 void MainWindow::writeSettings()
 {
     m_sett.beginGroup("/Settings");
+
     m_sett.setValue("/geometry", geometry());
+    for(int i = 0; i < ptable->colorCount(); ++i)
+    {
+        m_sett.setValue("/geometry/" + QString::number(i), ptable->columnWidth(i));
+    }
+
     m_sett.setValue("/pathToProf", pathToProf);
     m_sett.setValue("/lastProfile", curProf);
     m_sett.endGroup();
@@ -86,6 +94,11 @@ void MainWindow::readSettings()
 {
     m_sett.beginGroup("/Settings");
     QRect geom = m_sett.value("/geometry", QRect()).toRect();
+    for(int i = 0; i < ptable->colorCount(); ++i)
+    {
+        ptable->setColumnWidth(i, m_sett.value("/geometry/" + QString::number(i), 100).toInt());
+    }
+
     pathToProf = m_sett.value("/pathToProf", QDir::homePath() + "/tlp_profiles").toString();
     curProf = m_sett.value("/lastProfile", "AC").toString();
     m_sett.endGroup();
@@ -121,6 +134,8 @@ void MainWindow::createQMenuFile(QMenu* pmenu)
 
 void MainWindow::createQMenuHelp(QMenu* phelp)
 {
+    QAction* about = phelp->addAction(tr("&About program"));
+    connect(about, SIGNAL(triggered()), SLOT(slotAboutProgram()));
     phelp->addAction(tr("&About QT"), qApp, SLOT(aboutQt()));
 }
 
@@ -156,7 +171,6 @@ void MainWindow::slotSaveFile()
             return;
         }
         QTextStream out(&file);
-        //out << lbl.toPlainText();
         file.close();
     }
     slotSaveTable();
@@ -177,7 +191,6 @@ void MainWindow::slotOpenFile()
         ptab->setData(out.getVector());
         filename.reset();
         QTextStream in(&filename);
-        //lbl.setText(in.readAll());
 
     }
 }
@@ -214,8 +227,6 @@ void MainWindow::slotBAT()
     QProcess proc;
     proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp bat");
     proc.waitForFinished();
-    QByteArray arr = proc.readAll();
-    qDebug() << arr;
     QMessageBox::information(this, "Notification", "Battery mode activated");
 }
 
@@ -223,21 +234,23 @@ void MainWindow::slotSwitchMode(QString mode)
 {
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("cp-866"));
     QProcess proc;
-//    mode == "AC" ? proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp ac")
-//                 : proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp bat");
-    proc.start("echo кракозябры");
+    mode == "AC" ? proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp ac")
+                 : proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp bat");
     proc.waitForFinished(-1);
     QString str = proc.readAll();
-    qDebug() << QString::fromUtf8(proc.readAllStandardOutput());
-//    if(str.indexOf("TLP") == -1)
-//    {
-//        mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode hasn't activated")
-//                     : QMessageBox::information(this, "Notification", "Battery mode hasn't activated");
-//        return;
-//    }
-//    //QMessageBox::information(this, "Notification", str);
-//    mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode has activated")
-//                 : QMessageBox::information(this, "Notification", "Battery mode has activated");
+    if(str.indexOf("TLP") == -1)
+    {
+        mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode hasn't activated")
+                     : QMessageBox::information(this, "Notification", "Battery mode hasn't activated");
+        return;
+    }
+    mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode has activated")
+                 : QMessageBox::information(this, "Notification", "Battery mode has activated");
+}
+
+void MainWindow::slotAboutProgram()
+{
+    QMessageBox::about(this, "About", "Author : Zaitsev Alexander\nTranslator : Zaitsev Alexander");
 }
 
 void MainWindow::slotSettings()

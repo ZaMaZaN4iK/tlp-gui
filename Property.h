@@ -19,13 +19,14 @@ private:
     bool m_isDanger, m_isImp, m_isActive, m_isText;
 public:
     Property();
-    Property(const QString name, const QString defVal, const QStringList variants,
+    Property(const QString name, const QString defVal, const QStringList variants, const QString comment,
              const TypeOfWidget flag, const PropertyGroup group = OTHER, const bool danger = false,
              const bool importance = false, const bool active = true, const bool isText = false);
 
     QString getName() const;
     QString getDefVal() const;
     QString getCurVal() const;
+    QString getComment() const;
     QStringList getVariants() const;
     TypeOfWidget getTypeWidget() const;
     PropertyGroup getGroup() const;

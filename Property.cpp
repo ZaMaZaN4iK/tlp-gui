@@ -1,9 +1,9 @@
 #include "Property.h"
 
-Property::Property(const QString name, const QString defVal, const QStringList variants,
+Property::Property(const QString name, const QString defVal, const QStringList variants, const QString comment,
                    const TypeOfWidget flag, const PropertyGroup group, const bool danger,
                    const bool importance, const bool active, const bool isText) : m_name(name),
-                   m_defVal(defVal), m_variants(variants), m_type(flag), m_group(group),
+                   m_defVal(defVal), m_variants(variants), m_comment(comment), m_type(flag), m_group(group),
                    m_isDanger(danger), m_isImp(importance), m_isActive(active), m_isText(isText)
 {
     m_curVal = m_defVal;
@@ -26,6 +26,11 @@ QString Property::getDefVal() const
 QString Property::getCurVal() const
 {
     return m_curVal;
+}
+
+QString Property::getComment() const
+{
+    return m_comment;
 }
 
 QStringList Property::getVariants() const

@@ -2,7 +2,6 @@
 
 GroupQCheckBox::GroupQCheckBox()
 {
-    widg = new QWidget;
     phbx = new QHBoxLayout;
     check.resize(CountOfCheckBox);
     for(auto &x : check)
@@ -10,5 +9,5 @@ GroupQCheckBox::GroupQCheckBox()
         x = new QCheckBox;
         phbx->addWidget(x);
     }
-    widg->setLayout(phbx);
+    setLayout(phbx);
 }

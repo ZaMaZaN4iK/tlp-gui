@@ -12,7 +12,6 @@ class GroupQCheckBox : public QWidget
 private:
     const int CountOfCheckBox = 3;
 
-    QWidget* widg;
     QHBoxLayout* phbx;
     QVector<QCheckBox*> check;
 public:

@@ -16,7 +16,6 @@ CONFIG += c++11
 SOURCES += main.cpp\
     WindowSettings.cpp \
     SystemTray.cpp \
-    HelpBrowser.cpp \
     Backend.cpp \
     Parser.cpp \
     MainWindow.cpp \
@@ -29,7 +28,6 @@ SOURCES += main.cpp\
 HEADERS  += \
     WindowSettings.h \
     SystemTray.h \
-    HelpBrowser.h \
     Backend.h \
     Parser.h \
     MainWindow.h \
@@ -43,8 +41,10 @@ HEADERS  += \
 
 FORMS    +=
 
-DISTFILES +=
+DISTFILES += \
+    TODO-List
 
 RESOURCES += \
     images.qrc
+
 
