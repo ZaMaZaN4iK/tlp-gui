@@ -4,6 +4,5 @@
 #include "Property.h"
 #include <QList>
 
-const QList<Property> StartVal
 
 #endif // INITIALIZEPROPERTIES_H

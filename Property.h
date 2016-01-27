@@ -3,13 +3,20 @@
 
 #include <QString>
 #include <QObject>
+#include <QIntValidator>
 #include "Contstants.h"
 
 class Property
 {
 public :
-    enum TypeOfWidget{QLineEdit, QCheckBox, QComboBox};
+    enum TypeOfWidget{QLineEdit, QCheckBox, QComboBox, GroupQCheckBox};
     enum PropertyGroup{MAIN, CPU, DISK, THINKPAD, RADIO, RADEON, USB, PCI, OTHER};
+    struct AboutValidator
+    {
+        QString type;
+        int min, max;
+        AboutValidator(const char* str = "other", int t_min = 0, int t_max = (1 << 29)) : type(str), min(t_min), max(t_max){}
+    };
 private:
     QString m_name, m_comment;
     QString m_defVal, m_curVal;
@@ -17,16 +24,23 @@ private:
     TypeOfWidget m_type;
     PropertyGroup m_group;
     bool m_isDanger, m_isImp, m_isActive, m_isText;
+
+
+
+    AboutValidator val;
+
 public:
     Property();
     Property(const QString name, const QString defVal, const QStringList variants, const QString comment,
-             const TypeOfWidget flag, const PropertyGroup group = OTHER, const bool danger = false,
-             const bool importance = false, const bool active = true, const bool isText = false);
+             const TypeOfWidget flag, const PropertyGroup group = OTHER,
+             const bool danger = false, const bool importance = false, const bool active = true,
+             const bool isText = false, const AboutValidator valid = AboutValidator());
 
     QString getName() const;
     QString getDefVal() const;
     QString getCurVal() const;
     QString getComment() const;
+    AboutValidator getValidator() const;
     QStringList getVariants() const;
     TypeOfWidget getTypeWidget() const;
     PropertyGroup getGroup() const;

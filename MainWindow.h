@@ -53,4 +53,5 @@ public slots:
     void slotAC();
     void slotBAT();
     void slotAboutProgram();
+    void slotActivateProfile();
 };

@@ -44,27 +44,28 @@ TableModel::TableModel(int nRows, int nColumns, QObject* pobj)
                                 Property("USB_WHITELIST", "", QStringList(), "Include listed devices into USB autosuspend even if already excluded\nby the driver or WWAN blacklists above (separate with spaces)\nUse lsusb to get the ids", Property::QLineEdit, Property::USB, false, false, false, true),
                                 Property("USB_AUTOSUSPEND_DISABLE_ON_SHUTDOWN", "1", QStringList(), "Enable\\Disable stopping autosuspend before shutdown\n(workaround for USB devices that cause shutdown problems)", Property::QCheckBox, Property::USB, false, false, false, false),
                                 Property("RESTORE_DEVICE_STATE_ON_STARTUP", "0", QStringList(), "Restore radio device state (Bluetooth, WiFi, WWAN) from previous shutdown\non system startup: 0=disable, 1=enable\nHint: the parameters DEVICES_TO_DISABLE/ENABLE_ON_STARTUP/SHUTDOWN below\nare ignored when this is enabled!", Property::QCheckBox, Property::RADIO, false, false, true, false),
-                                Property("DEVICES_TO_DISABLE_ON_STARTUP", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on startup", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_STARTUP", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on startup", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_DISABLE_ON_SHUTDOWN", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on shutdown (workaround for devices that are blocking shutdown)", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_SHUTDOWN", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on shutdown (to prevent other operating systems from missing radios)", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_AC", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on AC", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_DISABLE_ON_BAT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on battery", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on battery when not in use (not connected)", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("START_CHARGE_THRESH_BAT0", "75", QStringList(), "Charging starts when the remaining capacity falls below the value (ThinkPad only)", Property::QLineEdit, Property::THINKPAD, false, false, false, false),
-                                Property("STOP_CHARGE_THRESH_BAT0", "80", QStringList(), "Charging stops when the remaining capacity exceeding the value (ThinkPad only)", Property::QLineEdit, Property::THINKPAD, false, false, false, false),
-                                Property("START_CHARGE_THRESH_BAT1", "75", QStringList(), "Ultrabay / Slice / Replaceable battery (values in %)\nSee previous property", Property::QLineEdit, Property::THINKPAD, false, false, false, false),
-                                Property("STOP_CHARGE_THRESH_BAT1", "80", QStringList(), "Ultrabay / Slice / Replaceable battery (values in %)\nSee previous property", Property::QLineEdit, Property::THINKPAD, false, false, false, false),
-                                Property("DEVICES_TO_DISABLE_ON_LAN_CONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on LAN connect", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_DISABLE_ON_WIFI_CONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on Wi-Fi connect", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_DISABLE_ON_WWAN_CONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on WWAN connect", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_LAN_DISCONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on LAN disconnect", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_WIFI_DISCONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on Wi-Fi disconnect", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_WWAN_DISCONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on WWAN disconnect", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_DOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable when docked", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_DISABLE_ON_DOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable when docked", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_ENABLE_ON_UNDOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable when undocked", Property::QComboBox, Property::RADIO, false, false, false, true),
-                                Property("DEVICES_TO_DISABLE_ON_UNDOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable when undocked", Property::QComboBox, Property::RADIO, false, false, false, true)});
+                                Property("DEVICES_TO_DISABLE_ON_STARTUP", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on startup", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_STARTUP", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on startup", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_DISABLE_ON_SHUTDOWN", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on shutdown (workaround for devices that are blocking shutdown)", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_SHUTDOWN", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on shutdown (to prevent other operating systems from missing radios)", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_AC", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on AC", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_DISABLE_ON_BAT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on battery", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on battery when not in use (not connected)", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("START_CHARGE_THRESH_BAT0", "75", QStringList(), "Charging starts when the remaining capacity falls below the value (ThinkPad only)", Property::QLineEdit, Property::THINKPAD, false, false, false, false, Property::AboutValidator("Digit", 0, 100)),
+                                Property("STOP_CHARGE_THRESH_BAT0", "80", QStringList(), "Charging stops when the remaining capacity exceeding the value (ThinkPad only)", Property::QLineEdit, Property::THINKPAD, false, false, false, false, Property::AboutValidator("Digit", 0, 100)),
+                                Property("START_CHARGE_THRESH_BAT1", "75", QStringList(), "Ultrabay / Slice / Replaceable battery (values in %)\nSee previous property", Property::QLineEdit, Property::THINKPAD, false, false, false, false, Property::AboutValidator("Digit", 0, 100)),
+                                Property("STOP_CHARGE_THRESH_BAT1", "80", QStringList(), "Ultrabay / Slice / Replaceable battery (values in %)\nSee previous property", Property::QLineEdit, Property::THINKPAD, false, false, false, false, Property::AboutValidator("Digit", 0, 100)),
+                                Property("DEVICES_TO_DISABLE_ON_LAN_CONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on LAN connect", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_DISABLE_ON_WIFI_CONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on Wi-Fi connect", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_DISABLE_ON_WWAN_CONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable on WWAN connect", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_LAN_DISCONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on LAN disconnect", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_WIFI_DISCONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on Wi-Fi disconnect", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_WWAN_DISCONNECT", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable on WWAN disconnect", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_DOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable when docked", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_DISABLE_ON_DOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable when docked", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_ENABLE_ON_UNDOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to enable when undocked", Property::GroupQCheckBox, Property::RADIO, false, false, false, true),
+                                Property("DEVICES_TO_DISABLE_ON_UNDOCK", "bluetooth", QStringList() << "bluetooth" << "wifi" << "wwan", "Radio devices to disable when undocked", Property::GroupQCheckBox, Property::RADIO, false, false, false, true)});
+    headerList << "Active" << "Property" << "Values";
 }
 
 Property TableModel::data1(const QModelIndex& index, int nRole) const
@@ -102,7 +103,8 @@ QVariant TableModel::getVal(const Property& var,const int column) const
     case COL_NAME:
         res = var.getName(); break;
     case COL_VALUE:
-        res = var.getCurVal(); break;
+        if(var.getTypeWidget() != Property::GroupQCheckBox) res = var.getCurVal();
+        break;
     }
     return res;
 }
@@ -172,23 +174,15 @@ Qt::ItemFlags TableModel::flags(const QModelIndex& index) const
 
 QVariant TableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
-    {
-        QVector<QString> list({"Active", "Property", "Values"});
-        return list[section];
-    }
-    else
-    {
-        //return QAbstractItemModel::headerData(section, orientation, role);
-        return QVariant();
-    }
+    return orientation == Qt::Horizontal && role == Qt::DisplayRole
+            ? headerList[section] : QVariant();
 }
 
 bool TableModel::Save(QTextStream & out) const
 {
     for(int i = 0; i < m_prop.size(); ++i)
     {
-        out << (m_prop[i].isActive() ? "#" : "") << m_prop[i].getName() << "=" << (m_prop[i].isText() ? "\"" : "")
+        out << (m_prop[i].isActive() ? "" : "#") << m_prop[i].getName() << "=" << (m_prop[i].isText() ? "\"" : "")
             << m_prop[i].getCurVal() << (m_prop[i].isText() ? "\"" : "") << '\n';
     }
 }

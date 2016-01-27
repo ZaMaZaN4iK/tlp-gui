@@ -20,8 +20,9 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
     pbtnTab = new QPushButton(tr("&Save Table to File"));
     pbar = new QMenuBar;
 
+    QPushButton* actPush = new QPushButton(tr("Activate current profile"));
 
-    QVector<QString> list({"Active", "Property", "Values"});
+    QVector<QString> list({tr("Active"), tr("Property"), tr("Values")});
 
     ptab = new TableModel(59, NumOfColumn, this);
     for(int i = 0;i < 3;++i)
@@ -36,6 +37,8 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 
     QSignalMapper* mapper = new QSignalMapper(this);
 
+
+    connect(actPush, SIGNAL(clicked()), SLOT(slotActivateProfile()));
     connect(pbtnTab, SIGNAL(clicked()), SLOT(slotSaveTable()));
     connect(pbtn, SIGNAL(clicked()), SLOT(slotCallEditor()));
 
@@ -59,6 +62,7 @@ MainWindow::MainWindow(QWidget* parent) : QWidget(parent)
 
     createQMenuBar();
     pvbx->addWidget(pbar);
+    phbx->addWidget(actPush);
     phbx->addWidget(pbtn);
     phbx->addWidget(pAC);
     phbx->addWidget(pBAT);
@@ -142,7 +146,7 @@ void MainWindow::createQMenuHelp(QMenu* phelp)
 
 void MainWindow::slotSaveTable()
 {
-    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/home/zamazan4ik/", "");
+    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), QDir::homePath(), "");
     //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
     if(str != "")
     {
@@ -160,7 +164,7 @@ void MainWindow::slotSaveTable()
 
 void MainWindow::slotSaveFile()
 {
-    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), "/home/zamazan4ik", "");
+    QString str = QFileDialog::getSaveFileName(0, tr("Save Dialog"), QDir::homePath(), "");
     //AdminAuthorization::execute(this, "/home/zamazan4ik/build-tlp-gui-Desktop_Qt_5_5_1_GCC_64bit-Debug/tlp-gui", QStringList());
     if(str != "")
     {
@@ -173,7 +177,7 @@ void MainWindow::slotSaveFile()
         QTextStream out(&file);
         file.close();
     }
-    slotSaveTable();
+    //slotSaveTable();
 }
 
 void MainWindow::slotOpenFile()
@@ -232,7 +236,6 @@ void MainWindow::slotBAT()
 
 void MainWindow::slotSwitchMode(QString mode)
 {
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("cp-866"));
     QProcess proc;
     mode == "AC" ? proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp ac")
                  : proc.start("/bin/sh", QStringList() << "-c" << "kdesudo tlp bat");
@@ -240,20 +243,48 @@ void MainWindow::slotSwitchMode(QString mode)
     QString str = proc.readAll();
     if(str.indexOf("TLP") == -1)
     {
-        mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode hasn't activated")
-                     : QMessageBox::information(this, "Notification", "Battery mode hasn't activated");
+        mode == "AC" ? QMessageBox::warning(this, tr("Notification"), tr("AC mode hasn't activated"))
+                     : QMessageBox::warning(this, tr("Notification"), tr("Battery mode hasn't activated"));
         return;
     }
-    mode == "AC" ? QMessageBox::information(this, "Notification", "AC mode has activated")
-                 : QMessageBox::information(this, "Notification", "Battery mode has activated");
+    mode == "AC" ? QMessageBox::information(this, tr("Notification"), tr("AC mode has activated"))
+                 : QMessageBox::information(this, tr("Notification"), tr("Battery mode has activated"));
 }
 
 void MainWindow::slotAboutProgram()
 {
-    QMessageBox::about(this, "About", "Author : Zaitsev Alexander\nTranslator : Zaitsev Alexander");
+    QMessageBox::about(this, tr("About program"), tr("Author : Zaitsev Alexander\nTranslator : Zaitsev Alexander"));
 }
 
 void MainWindow::slotSettings()
 {
 
+}
+
+void MainWindow::slotActivateProfile()
+{
+    QDir val(QDir::homePath() + "/.tlp_profiles/");
+    if(!val.exists())
+    {
+        QDir(QDir::homePath()).mkdir(".tlp_profiles");
+    }
+
+    QFile file(QDir::homePath() + "/.tlp_profiles/" + "azazaza");
+    if(!file.open(QIODevice::WriteOnly | QFile::Truncate))
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Could not create the file"));
+        return;
+    }
+    QTextStream out(&file);
+    ptab->Save(out);
+    file.close();
+
+    QProcess proc;
+    //proc.start("/bin/sh");
+    //proc.waitForStarted();
+    qDebug() << "Start sh\n";
+    proc.start("gksu \"cp -f /home/zamazan4ik/.tlp_profiles/azazaza /etc/default/tlp\"");
+    qDebug() << "Copy config to /etc\n";
+    proc.waitForFinished();
+    qDebug() << "Finishing\n";
 }

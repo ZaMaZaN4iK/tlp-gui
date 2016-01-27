@@ -11,3 +11,4 @@
 - Add translating for other languages(current languages : English)
 - Add switching between modes without root priviligues
 - Refactor code
+- Do something with events in custom widget

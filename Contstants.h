@@ -3,6 +3,7 @@
 
 #include <QStringList>
 #include <QVector>
+#include <QIntValidator>
 #include "Property.h"
 
 const QStringList NamesOfProp({"TLP_ENABLE", "TLP_DEFAULT_MODE", "DISK_IDLE_SECS_ON_AC", "DISK_IDLE_SECS_ON_BAT",
@@ -33,7 +34,6 @@ const QStringList NamesOfProp({"TLP_ENABLE", "TLP_DEFAULT_MODE", "DISK_IDLE_SECS
 
 //enum TypeOfWidget{QLineEdit, QCheckBox, QComboBox};
 //enum PropertyGroup{MAIN, CPU, DISK, THINKPAD, RADIO, RADEON, USB, PCI, OTHER};
-
 
 
 

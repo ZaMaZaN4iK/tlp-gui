@@ -1,4 +1,5 @@
 #include <QComboBox>
+#include <QtGui>
 #include <QCheckBox>
 #include "QComboBoxItemDelegate.h"
 #include "Contstants.h"
@@ -30,10 +31,34 @@ QWidget* QComboBoxItemDelegate::createEditor(QWidget *parent,
             checkbox->setChecked(ptr->data1(index, Qt::EditRole).isActive());
             return checkbox;
         }
+        else if(ptr->data1(index, Qt::EditRole).getTypeWidget() == Property::GroupQCheckBox)
+        {
+            GroupQCheckBox* groupBox = new GroupQCheckBox(parent);
+            QString str = ptr->data1(index, Qt::EditRole).getCurVal();
+            unsigned int mask = 0;
+            if(str.indexOf("bluetooth") != -1)  mask |= 0b1;
+            if(str.indexOf("wifi") != -1)  mask |= 0b10;
+            if(str.indexOf("wwan") != -1)  mask |= 0b100;
+            groupBox->setValues(mask);
+            return groupBox;
+        }
         else
         {
             QLineEdit* line = new QLineEdit(parent);
             line->setText(ptr->data1(index, Qt::EditRole).getDefVal());
+            if(ptr->data1(index, Qt::EditRole).getValidator().type == "Digit")
+            {
+                Property::AboutValidator temp = ptr->data1(index, Qt::EditRole).getValidator();
+                line->setValidator(new QIntValidator(temp.min, temp.max, parent));
+            }
+            else if(ptr->data1(index, Qt::EditRole).getValidator().type == "other")
+            {
+                line->setValidator(new QIntValidator(0, (1 << 29), parent));
+            }
+            else if(ptr->data1(index, Qt::EditRole).getValidator().type == "string")
+            {
+                //line->setValidator();
+            }
             return line;
         }
     }
@@ -66,6 +91,17 @@ void QComboBoxItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
         {
             QCheckBox* checkbox = qobject_cast<QCheckBox*>(editor);
             model->setData(index, checkbox->isChecked(), Qt::EditRole);
+        }
+        else if(ptr->data1(index, Qt::EditRole).getTypeWidget() == Property::GroupQCheckBox)
+        {
+            qDebug() << "Group to model\n";
+            GroupQCheckBox* groupBox = qobject_cast<GroupQCheckBox*>(editor);
+            QString str;
+            unsigned int mask = groupBox->getValues();
+            if(mask & 0b1)    str += "bluetooth ";
+            if(mask & 0b10)    str += "wifi ";
+            if(mask & 0b100)    str += "wwan ";
+            model->setData(index, str, Qt::EditRole);
         }
         else
         {
@@ -103,6 +139,16 @@ void QComboBoxItemDelegate::setEditorData(QWidget *editor, const QModelIndex &in
             {
                 QCheckBox* checkbox = qobject_cast<QCheckBox*>(editor);
                 checkbox->setChecked(ptr->data1(index, Qt::EditRole).isActive());
+            }
+            else if(ptr->data1(index, Qt::EditRole).getTypeWidget() == Property::GroupQCheckBox)
+            {
+                GroupQCheckBox* groupBox = qobject_cast<GroupQCheckBox*>(editor);
+                QString str = ptr->data1(index, Qt::EditRole).getCurVal();
+                unsigned int mask = 0;
+                if(str.indexOf("bluetooth") != -1)  mask |= 0b1;
+                if(str.indexOf("wifi") != -1)  mask |= 0b10;
+                if(str.indexOf("wwan") != -1)  mask |= 0b100;
+                groupBox->setValues(mask);
             }
             else
             {

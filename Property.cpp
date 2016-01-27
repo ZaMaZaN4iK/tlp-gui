@@ -2,11 +2,10 @@
 
 Property::Property(const QString name, const QString defVal, const QStringList variants, const QString comment,
                    const TypeOfWidget flag, const PropertyGroup group, const bool danger,
-                   const bool importance, const bool active, const bool isText) : m_name(name),
-                   m_defVal(defVal), m_variants(variants), m_comment(comment), m_type(flag), m_group(group),
-                   m_isDanger(danger), m_isImp(importance), m_isActive(active), m_isText(isText)
+                   const bool importance, const bool active, const bool isText, const AboutValidator valid) : m_name(name),
+                   m_defVal(defVal), m_curVal(m_defVal), m_variants(variants), m_comment(comment), m_type(flag), m_group(group),
+                   m_isDanger(danger), m_isImp(importance), m_isActive(active), m_isText(isText), val(valid)
 {
-    m_curVal = m_defVal;
 }
 
 Property::Property()
@@ -26,6 +25,11 @@ QString Property::getDefVal() const
 QString Property::getCurVal() const
 {
     return m_curVal;
+}
+
+Property::AboutValidator Property::getValidator() const
+{
+    return val;
 }
 
 QString Property::getComment() const
