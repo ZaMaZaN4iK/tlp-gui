@@ -27,7 +27,7 @@ public:
     void setValue(TypeCheckBox value, bool key);
     void setValues(unsigned int mask);
 
-
+    //FIXME : Fix Event bug
     bool eventFilter( QObject* o, QEvent* e )
     {
         if( (o == check[0] || o == check[1] || o == check[2]) && e->type() == QEvent::FocusOut )
