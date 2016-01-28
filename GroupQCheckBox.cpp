@@ -28,7 +28,7 @@ bool GroupQCheckBox::getValue(TypeCheckBox value) const
 unsigned int GroupQCheckBox::getValues() const
 {
     unsigned int res = 0;
-    for(int i = 0; i < CountOfCheckBox; ++i, res <<= 1)
+    for(int i = CountOfCheckBox - 1; i >= 0; --i, res <<= 1)
     {
         if(check[i]->isChecked())   res |= 1;
     }

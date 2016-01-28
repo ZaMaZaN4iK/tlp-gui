@@ -282,9 +282,12 @@ void MainWindow::slotActivateProfile()
     QProcess proc;
     //proc.start("/bin/sh");
     //proc.waitForStarted();
-    qDebug() << "Start sh\n";
-    proc.start("gksu \"cp -f /home/zamazan4ik/.tlp_profiles/azazaza /etc/default/tlp\"");
-    qDebug() << "Copy config to /etc\n";
-    proc.waitForFinished();
-    qDebug() << "Finishing\n";
+//    qDebug() << "Start sh\n";
+//    proc.start("gksu \"cp -f /home/zamazan4ik/.tlp_profiles/azazaza /etc/default/tlp\"");
+//    qDebug() << "Copy config to /etc\n";
+//    proc.waitForFinished();
+//    proc.start();
+//    qDebug() << "Finishing\n";
+    proc.start("/bin/sh", QStringList() << "-c" << "kdesudo \"cp -f /home/zamazan4ik/.tlp_profiles/azazaza /etc/default/tlp\"");
+    proc.waitForFinished(-1);
 }

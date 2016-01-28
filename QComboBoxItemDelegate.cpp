@@ -35,11 +35,11 @@ QWidget* QComboBoxItemDelegate::createEditor(QWidget *parent,
         {
             GroupQCheckBox* groupBox = new GroupQCheckBox(parent);
             QString str = ptr->data1(index, Qt::EditRole).getCurVal();
-            unsigned int mask = 0;
-            if(str.indexOf("bluetooth") != -1)  mask |= 0b1;
-            if(str.indexOf("wifi") != -1)  mask |= 0b10;
-            if(str.indexOf("wwan") != -1)  mask |= 0b100;
-            groupBox->setValues(mask);
+
+            if(str.indexOf("bluetooth") != -1)  groupBox->setValue(GroupQCheckBox::BLUETOOTH, true);
+            if(str.indexOf("wifi") != -1)  groupBox->setValue(GroupQCheckBox::WIFI, true);
+            if(str.indexOf("wwan") != -1)  groupBox->setValue(GroupQCheckBox::WWAN, true);
+
             return groupBox;
         }
         else
@@ -97,10 +97,9 @@ void QComboBoxItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
             qDebug() << "Group to model\n";
             GroupQCheckBox* groupBox = qobject_cast<GroupQCheckBox*>(editor);
             QString str;
-            unsigned int mask = groupBox->getValues();
-            if(mask & 0b1)    str += "bluetooth ";
-            if(mask & 0b10)    str += "wifi ";
-            if(mask & 0b100)    str += "wwan ";
+            if(groupBox->getValue(GroupQCheckBox::BLUETOOTH))    str += "bluetooth ";
+            if(groupBox->getValue(GroupQCheckBox::WIFI))    str += "wifi ";
+            if(groupBox->getValue(GroupQCheckBox::WWAN))    str += "wwan ";
             model->setData(index, str, Qt::EditRole);
         }
         else
@@ -144,11 +143,10 @@ void QComboBoxItemDelegate::setEditorData(QWidget *editor, const QModelIndex &in
             {
                 GroupQCheckBox* groupBox = qobject_cast<GroupQCheckBox*>(editor);
                 QString str = ptr->data1(index, Qt::EditRole).getCurVal();
-                unsigned int mask = 0;
-                if(str.indexOf("bluetooth") != -1)  mask |= 0b1;
-                if(str.indexOf("wifi") != -1)  mask |= 0b10;
-                if(str.indexOf("wwan") != -1)  mask |= 0b100;
-                groupBox->setValues(mask);
+
+                if(str.indexOf("bluetooth") != -1)  groupBox->setValue(GroupQCheckBox::BLUETOOTH, true);
+                if(str.indexOf("wifi") != -1)  groupBox->setValue(GroupQCheckBox::WIFI, true);
+                if(str.indexOf("wwan") != -1)  groupBox->setValue(GroupQCheckBox::WWAN, true);
             }
             else
             {
